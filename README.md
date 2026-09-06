@@ -22,11 +22,14 @@ Plus `VideoOverlay`: the opaque fullscreen film layer that opens on click.
 
 1. The page loads showing the three-section layout: logo, seven lockups, media band.
 2. The default project (`defaultProjectId`) is highlighted and its film plays **muted** as an ambient preview inside its media column — the only playback browsers allow before a gesture.
-3. Clicking any of the seven lockups opens `VideoOverlay` **immediately**: an opaque black layer at `z-50` covering `100vw × 100vh`, with nothing from the page visible behind it.
+3. Clicking any of the seven lockups opens `VideoOverlay` **immediately**: an opaque black layer at `z-50` covering `100vw × 100vh`, with nothing from the page visible behind it. The film itself is scaled to fit at its **native aspect ratio** and centred — never cropped, zoomed or stretched, so any leftover space shows as black.
 4. The film starts on its own and plays **with sound** — the click is the gesture that unlocks audio, so the overlay sets `muted = false` and `volume = 1`. If a browser still refuses audible autoplay it falls back to a muted play; there are **no sound, mute or volume controls anywhere in the UI**.
 5. A **×** button sits in the top-right of the overlay. Clicking it (or pressing `Esc`) stops the film, releases its source, and returns to the main page. The ambient preview resumes.
 
-`object-fit: cover`, `playsInline`, `loop`, and no native controls throughout.
+`playsInline`, `loop`, and no native controls throughout. The overlay uses
+`object-fit: contain` so the whole frame stays visible; the ambient preview
+behind the media band still uses `cover`, since it is only ever seen through a
+one-column slot and letterboxing it there would leave that column empty.
 
 ## Configuration — `src/data/projects.js`
 

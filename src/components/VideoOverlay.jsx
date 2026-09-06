@@ -5,7 +5,9 @@ import ProjectMark from './marks/ProjectMark.jsx'
  * The fullscreen film overlay.
  *
  * Sits above every other layer on an opaque black backdrop, so nothing from
- * the showcase behind it is visible.
+ * the showcase behind it is visible. The film is never cropped: it is scaled to
+ * fit the viewport at its native aspect ratio and centred, so any leftover
+ * space shows as black rather than the frame being zoomed in on.
  *
  * The film plays WITH SOUND: the logo click is the user gesture that unlocks
  * audio, so the overlay opens with `muted = false` and `volume = 1`. If a
@@ -90,11 +92,17 @@ export default function VideoOverlay({ project, onClose }) {
         pointerEvents: isOpen ? 'auto' : 'none',
       }}
     >
+      {/*
+        `object-contain` keeps the film's native aspect ratio and shows every
+        edge of the frame. Where the viewport's ratio differs, the difference
+        becomes black space around a centred film rather than a crop. Default
+        `object-position` centres it on both axes.
+      */}
       {isOpen && src && (
         <video
           ref={videoRef}
           key={src}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-contain"
           playsInline
           disablePictureInPicture
           loop
