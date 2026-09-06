@@ -3,7 +3,6 @@ import { projects, defaultProjectId, getProject } from '../data/projects.js'
 import RoshnHeader from './RoshnHeader.jsx'
 import ProjectNavigation from './ProjectNavigation.jsx'
 import ProjectMedia from './ProjectMedia.jsx'
-import VideoBackground from './VideoBackground.jsx'
 import VideoOverlay from './VideoOverlay.jsx'
 import Overlay from './Overlay.jsx'
 
@@ -12,9 +11,9 @@ import Overlay from './Overlay.jsx'
  *
  *   SECTION 1  RoshnHeader        ROSHN GROUP logo, upper-left
  *   SECTION 2  ProjectNavigation  the seven clickable project lockups
- *   SECTION 3  ProjectMedia       the full-width media band, with the ambient
- *                                 VideoBackground showing through the active
- *                                 project's column
+ *   SECTION 3  ProjectMedia       the full-width media band, where all seven
+ *                                 films play at once, each directly beneath
+ *                                 its own lockup
  *
  * Clicking a lockup opens that project's film in VideoOverlay — an opaque
  * fullscreen layer above everything else, playing silently. Closing it returns
@@ -24,7 +23,6 @@ export default function RoshnPage() {
   const [activeId, setActiveId] = useState(defaultProjectId)
   const [openId, setOpenId] = useState(null)
 
-  const activeProject = useMemo(() => getProject(activeId), [activeId])
   const openProject = useMemo(() => (openId ? getProject(openId) : null), [openId])
 
   const handleSelect = useCallback((id) => {
@@ -37,13 +35,6 @@ export default function RoshnPage() {
   return (
     <>
       <div className="fixed inset-0 flex h-[100svh] w-screen flex-col overflow-hidden bg-black">
-        {/* ---- ambient film behind the media band ---- */}
-        <VideoBackground
-          src={activeProject?.video ?? null}
-          poster={activeProject?.poster ?? null}
-          paused={Boolean(openId)}
-        />
-
         {/* ---- SECTION 1 + SECTION 2 ---- */}
         <div className="relative z-30 shrink-0">
           <div className="roshn-sky pointer-events-none absolute inset-0" />
@@ -62,6 +53,7 @@ export default function RoshnPage() {
           <ProjectMedia
             projects={projects}
             activeId={activeId}
+            paused={Boolean(openId)}
             onSelect={handleSelect}
           />
           <Overlay />

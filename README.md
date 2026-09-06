@@ -14,22 +14,21 @@ npm run build
 |---|---|---|
 | **1** | `RoshnHeader` → `RoshnLogo` | The real `roshn-logo.svg` asset, CSS-masked to white so the original geometry and aspect ratio are preserved. Upper-left, responsive. |
 | **2** | `ProjectNavigation` → `ProjectLogo` | Seven clickable project lockups. ≥1024px they sit on a 7-column grid, each centred over its media column; below that they become a swipeable snap rail. |
-| **3** | `ProjectMedia` + `VideoBackground` | The full-width media band. The active project's column is transparent, so the ambient film behind shows through that slot — no second `<video>` is mounted. |
+| **3** | `ProjectMedia` | The full-width media band. All seven films play at once, each in its own column directly beneath its lockup. A project without a film keeps the branded placeholder. |
 
 Plus `VideoOverlay`: the opaque fullscreen film layer that opens on click.
 
 ## Interaction
 
 1. The page loads showing the three-section layout: logo, seven lockups, media band.
-2. The default project (`defaultProjectId`) is highlighted and its film plays **muted** as an ambient preview inside its media column — the only playback browsers allow before a gesture.
+2. Every project's film plays **muted** in its own column — the only playback browsers allow before a gesture. Cold starts are staggered 450 ms apart per column so seven simultaneous fetches do not stall each other; once running, all seven play together.
 3. Clicking any of the seven lockups opens `VideoOverlay` **immediately**: an opaque black layer at `z-50` covering `100vw × 100vh`, with nothing from the page visible behind it. The film itself is scaled to fit at its **native aspect ratio** and centred — never cropped, zoomed or stretched, so any leftover space shows as black.
 4. The film starts on its own and plays **with sound** — the click is the gesture that unlocks audio, so the overlay sets `muted = false` and `volume = 1`. If a browser still refuses audible autoplay it falls back to a muted play; there are **no sound, mute or volume controls anywhere in the UI**.
 5. A **×** button sits in the top-right of the overlay. Clicking it (or pressing `Esc`) stops the film, releases its source, and returns to the main page. The ambient preview resumes.
 
 `playsInline`, `loop`, and no native controls throughout. The overlay uses
-`object-fit: contain` so the whole frame stays visible; the ambient preview
-behind the media band still uses `cover`, since it is only ever seen through a
-one-column slot and letterboxing it there would leave that column empty.
+`object-fit: contain` so the whole frame stays visible; the column films use
+`cover`, since each fills a narrow slice of the band.
 
 ## Configuration — `src/data/projects.js`
 
@@ -133,10 +132,10 @@ node scripts/faststart.mjs public/videos   # run this after adding new videos
 
 * All films are faststart-encoded (see above), so playback begins in well under
   a second instead of after a full download.
-* `preload="none"` on the ambient layer; only the active film is ever fetched.
-* The ambient layer uses two `<video>` elements swapped imperatively — switching
-  projects triggers no React re-render of the page tree — and is suspended
-  entirely while the overlay is open.
+* The seven column films are `preload="none"` until their staggered turn, so
+  the fetches serialise rather than competing.
+* All seven are suspended while the overlay is open, so only one film ever
+  decodes at a time.
 * The overlay's `<video>` is mounted only while open, and its `src` is removed
   and `load()`ed on close so the decoder and network buffer are released
   (`networkState` returns to `NETWORK_EMPTY`).
