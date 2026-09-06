@@ -1,0 +1,9 @@
+node_modules
+dist
+.DS_Store
+
+# Source films. `public/videos/` holds the same content under ASCII-safe names,
+# faststart-optimised and actually served by the app — committing both would
+# double the repository to ~300 MB. The filename -> tile mapping is documented
+# in README.md and src/data/projects.js. Remove this line to track them.
+/videos/

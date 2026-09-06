@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+  /* Sampled directly from roshn-page-design.jpeg */
+  --color-roshn-green: #026551;
+  --color-roshn-green-top: #005a47;
+  --color-roshn-green-mid: #014c3d;
+  --color-roshn-green-deep: #022f26;
+  --color-roshn-ink: #000000;
+
+  --font-latin: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-arabic: "Noto Naskh Arabic", "Geeza Pro", "Al Bayan", "Segoe UI", serif;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    background: var(--color-roshn-ink);
+  }
+
+  body {
+    overflow: hidden;
+    overscroll-behavior: none;
+    background: var(--color-roshn-ink);
+    color: #fff;
+    font-family: var(--font-latin);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Keep the stage inside the viewport on every breakpoint. */
+  #root {
+    width: 100%;
+    min-height: 100svh;
+  }
+}
+
+@utility roshn-sky {
+  /* The vertical green -> black wash behind SECTION 1 + SECTION 2. Stops are
+     sampled from roshn-page-design.jpeg and re-mapped onto the header block,
+     so black lands just under the project lockups exactly as in the reference. */
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-roshn-green-top) 0%,
+    var(--color-roshn-green-mid) 34%,
+    var(--color-roshn-green-deep) 58%,
+    var(--color-roshn-ink) 84%
+  );
+}
+
+@utility roshn-scrim {
+  /* Overlay that keeps the logo + nav readable on top of a playing video. */
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 90, 71, 0.95) 0%,
+    rgba(1, 76, 61, 0.91) 16%,
+    rgba(2, 47, 38, 0.83) 30%,
+    rgba(0, 0, 0, 0.68) 44%,
+    rgba(0, 0, 0, 0.5) 54%,
+    rgba(0, 0, 0, 0.18) 68%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+/* Horizontal logo rail on narrow screens: swipeable, no visible scrollbar. */
+@utility rail-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
