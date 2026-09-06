@@ -71,11 +71,46 @@ All seven tiles are mapped. `video: null` remains a supported state — a tile
 without a film stays clickable and shows the "Film coming soon" panel instead
 of breaking.
 
-`roshn-logo.svg` is the only logo asset that shipped. The four project marks
-(ALAROUS, AL MANAR, MARAFY, ALAROUS RESIDENCE) are therefore **redrawn as line
-art** in `src/components/marks/ProjectMark.jsx` rather than faked with text.
-When the official artwork arrives, put the SVGs in `public/logos/` and point
-each project's `logo` field at them — no component changes needed.
+## Logos — `public/logos/`
+
+One official lockup per project, named after its project id:
+
+```
+alarous.png            alarous-progress.png     alarous-residence.png
+almanar.png            almanar-progress.png
+marafy.png             marafy-progress.png
+```
+
+Each project's `logo` field in `src/data/projects.js` points at its file, and
+`ProjectLogo` prefers `logo` over the built-in `mark`. The vector
+reconstructions in `src/components/marks/ProjectMark.jsx` remain as the
+fallback for any project whose `logo` is null.
+
+`roshn-logo.svg` is the separate ROSHN GROUP asset used in SECTION 1.
+
+### `scripts/logo-alpha.mjs`
+
+The lockups were supplied fully opaque, each carrying the design's green-to-black
+wash baked in behind the artwork — on the page gradient that read as a visible
+dark rectangle around every logo. The script keys that background out:
+
+* the lockups have a clear margin, so the outermost columns of each row give a
+  per-row background level that tracks the vertical gradient exactly;
+* `alpha = luminance - rowBackground`, normalised against the median brightness
+  of the artwork itself (not a percentile of the whole image, which would leave
+  the RESIDENCE solid fill translucent);
+* RGB is set to pure white, restoring the artwork's intended white from the
+  roughly `#c9d0cc` the capture had produced.
+
+Only the background is removed — no shape, edge or proportion changes, and
+anti-aliased edges keep their partial alpha. Files also drop from ~400 KB to
+~85 KB each.
+
+```bash
+node scripts/logo-alpha.mjs public/logos   # run after adding new logo PNGs
+```
+
+The originals are preserved in git history (commit `e52e1de`).
 
 ## `scripts/faststart.mjs`
 
