@@ -65,10 +65,11 @@ mapping comes straight from the filename:
 | `EN-ALAROUS RES. العروس رزيدنس .mp4` | `alarous-residence-en.mp4` | ALAROUS RESIDENCE |
 | `AR-ALAROUS RES_العروس ريزيدنس  .mp4` | `alarous-residence-ar.mp4` | *(Arabic alternate — one line in the config to switch)* |
 | `ALMANAR PROGRESS_مراحل تطوير المنار .mp4` | `almanar-progress.mp4` | ALMANAR · Progress |
+| `MARAFY PROGRESS_مراحل تطوير مرافئ.mp4` | `marafy-progress.mp4` | MARAFY · Progress |
 
-Nothing in the folder names a **MARAFY Progress** film, so that one tile keeps
-`video: null` and shows the "Film coming soon" panel rather than being guessed
-at. Drop the file in `public/videos/` and set its path to finish the set.
+All seven tiles are mapped. `video: null` remains a supported state — a tile
+without a film stays clickable and shows the "Film coming soon" panel instead
+of breaking.
 
 `roshn-logo.svg` is the only logo asset that shipped. The four project marks
 (ALAROUS, AL MANAR, MARAFY, ALAROUS RESIDENCE) are therefore **redrawn as line

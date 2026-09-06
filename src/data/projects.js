@@ -25,10 +25,9 @@
  *   EN-ALAROUS RES. العروس رزيدنس .mp4        -> alarous-residence-en.mp4  -> alarous-residence
  *   AR-ALAROUS RES_العروس ريزيدنس  .mp4       -> alarous-residence-ar.mp4  -> (Arabic alternate)
  *   ALMANAR PROGRESS_مراحل تطوير المنار .mp4  -> almanar-progress.mp4      -> almanar-progress
+ *   MARAFY PROGRESS_مراحل تطوير مرافئ.mp4     -> marafy-progress.mp4       -> marafy-progress
  *
- * Nothing in the folder names a MARAFY *Progress* film, so that one tile keeps
- * `video: null` rather than being guessed at — drop the file in and set the
- * path when it arrives.
+ * All seven tiles are mapped.
  *
  * `mark` selects the built-in vector reconstruction of the project lockup.
  * If you receive the official artwork, drop the SVG into `public/logos/` and
@@ -108,7 +107,7 @@ export const projects = [
     mark: 'marafy',
     logo: null,
     label: 'Progress',
-    video: null,
+    video: '/videos/marafy-progress.mp4',
     poster: null,
   },
 ]
