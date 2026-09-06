@@ -29,9 +29,9 @@
  *
  * All seven tiles are mapped.
  *
- * `mark` selects the built-in vector reconstruction of the project lockup.
- * If you receive the official artwork, drop the SVG into `public/logos/` and
- * set `logo: '/logos/<file>.svg'` — the component prefers `logo` over `mark`.
+ * `logo` points at the official lockup artwork in `public/logos/`, one file per
+ * project, named after the project id. `mark` is the built-in vector fallback
+ * used only when `logo` is null — the component prefers `logo` over `mark`.
  * ============================================================================
  */
 
@@ -41,7 +41,7 @@ export const projects = [
     name: 'ALAROUS',
     nameAr: 'العروس',
     mark: 'alarous',
-    logo: null,
+    logo: '/logos/alarous.png',
     label: null,
     video: '/videos/alarous.mp4',
     poster: null,
@@ -51,7 +51,7 @@ export const projects = [
     name: 'ALMANAR',
     nameAr: 'المنار',
     mark: 'almanar',
-    logo: null,
+    logo: '/logos/almanar.png',
     label: null,
     video: '/videos/almanar.mp4',
     poster: null,
@@ -61,7 +61,7 @@ export const projects = [
     name: 'MARAFY',
     nameAr: 'مرافي',
     mark: 'marafy',
-    logo: null,
+    logo: '/logos/marafy.png',
     label: null,
     video: '/videos/marafy.mp4',
     poster: null,
@@ -71,7 +71,7 @@ export const projects = [
     name: 'ALAROUS',
     nameAr: 'العروس',
     mark: 'alarous',
-    logo: null,
+    logo: '/logos/alarous-progress.png',
     label: 'Progress',
     video: '/videos/alarous-progress.mp4',
     poster: null,
@@ -81,7 +81,7 @@ export const projects = [
     name: 'ALAROUS RESIDENCE',
     nameAr: 'العروس ريزيدنس',
     mark: 'alarous-residence',
-    logo: null,
+    logo: '/logos/alarous-residence.png',
     label: null,
     // The RESIDENCE lockup is the solid variant and drops the ROSHN endorsement line.
     subline: false,
@@ -94,7 +94,7 @@ export const projects = [
     name: 'ALMANAR',
     nameAr: 'المنار',
     mark: 'almanar',
-    logo: null,
+    logo: '/logos/almanar-progress.png',
     label: 'Progress',
     // Matched by filename: "ALMANAR PROGRESS_مراحل تطوير المنار .mp4"
     video: '/videos/almanar-progress.mp4',
@@ -105,7 +105,7 @@ export const projects = [
     name: 'MARAFY',
     nameAr: 'مرافي',
     mark: 'marafy',
-    logo: null,
+    logo: '/logos/marafy-progress.png',
     label: 'Progress',
     video: '/videos/marafy-progress.mp4',
     poster: null,
